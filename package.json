@@ -1,0 +1,28 @@
+{
+  "name": "logistics-server",
+  "version": "0.0.1",
+  "description": "Logistics-server is used for logistics application in o2o",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexanderkenndy/logistics-server.git"
+  },
+  "keywords": [
+    "logistics"
+  ],
+  "dependencies":{
+        "ejs": "*", 
+        "express": "3.1.1", 
+        "mongoose": "2.7.3", 
+        "socket.io": "*"
+  },
+  "author": "alexander.kenndy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexanderkenndy/logistics-server/issues"
+  }
+}
