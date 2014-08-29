@@ -1,0 +1,16 @@
+{
+	"appenders": [
+		{
+			"type": "file",
+			"filename": "logs/logistics_log.log",
+			"maxLogSize": 20480,
+			"backups": 10,
+			"category": "file"
+		},
+		{
+			"type": "console",
+			"category": "console"
+		}
+
+	]
+}

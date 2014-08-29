@@ -35,9 +35,9 @@ var http = require('http'),
 /**
  * local dependance module
  */
-var config = require('./config');
-
-var app = module.exports.app = express(),
+var config = require('./config'),
+	logger = require('./utils/logger'),
+	app = module.exports.app = express(),
 	server = module.exports.server = http.createServer(app),
 	sessionStore = module.exports.sessionStore = new express.session.MemoryStore();
 
@@ -71,8 +71,28 @@ if ('development' === app.get('env')) {
 }
 
 server.listen(app.get('port'), function () {
-	console.log('Logistics server listening on port ' + app.get('port'));
-	console.log(config.name + " version " + config.version + '\n');
+	var colorPort = '\x1b[1;37;42m' + app.get('port') + '\x1b[m';
+
+	console.log(config.name + ' server listening on port ' + colorPort);
+
+	logger.info(config.name + ' server listening on port ' + colorPort);
+	logger.info(config.name + ' version ' + config.version + '\n');
+
+	logger.trace(config.name + ' server listening on port ' + colorPort);
+	logger.trace(config.name + ' version ' + config.version + '\n');
+
+	logger.debug(config.name + ' server listening on port ' + colorPort);
+	logger.debug(config.name + ' version ' + config.version + '\n');
+
+	logger.warn(config.name + ' server listening on port ' + colorPort);
+	logger.warn(config.name + ' version ' + config.version + '\n');
+
+	logger.error(config.name + ' server listening on port ' + colorPort);
+	logger.error(config.name + ' version ' + config.version + '\n');
+
+	logger.fatal(config.name + ' server listening on port ' + colorPort);
+	logger.fatal(config.name + ' version ' + config.version + '\n');
+
 });
 
 /**
@@ -81,31 +101,3 @@ server.listen(app.get('port'), function () {
 process.on('uncaughtException', function(err){
 	console.error('Exception: ' + err.stack);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
