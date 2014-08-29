@@ -35,8 +35,7 @@ var http = require('http'),
 /**
  * local dependance module
  */
-var routes = require('./routes'),
-	config = require('./config');
+var config = require('./config');
 
 var app = module.exports.app = express(),
 	server = module.exports.server = http.createServer(app),
@@ -46,6 +45,10 @@ var app = module.exports.app = express(),
  * global configuration
  */
 app.set('port', config.port || process.env.PORT);
+app.set('views',  __dirname + '/views');
+app.set('view engine', 'ejs');
+app.use(express.favicon());
+app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser(config.cookie_secret));
@@ -55,6 +58,17 @@ app.use(express.session({
 		maxAge: 1000 * 60 * 60 * 6
 	}
 }));
+app.use(app.router);
+app.use(express.static(path.join(__dirname, 'public')));
+
+/**
+ * routes handler
+ */
+require('./routes');
+
+if ('development' === app.get('env')) {
+	app.use(express.errorHandler());
+}
 
 server.listen(app.get('port'), function () {
 	console.log('Logistics server listening on port ' + app.get('port'));
