@@ -45,9 +45,11 @@ app.get('/users/:id', user.getUser);
  */
 app.use(function(req,res) {
     res.status(400);
-    res.render('404', {
-        url: req.url
-    });
+	res.setHeader('Content-type', 'application/json;charset=utf-8');
+	res.send({
+		'rc' : 404,
+		'msg': 'invalid url'
+	});
 });
 
 
