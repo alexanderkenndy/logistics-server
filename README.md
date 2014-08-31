@@ -17,6 +17,7 @@ logistics-server
 	karma start karma.config.js   //use the configuration file to do the js unit test
 ```
 - Start server
+```
 	npm start
 ```
 - Access path
