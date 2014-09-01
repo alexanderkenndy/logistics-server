@@ -36,7 +36,7 @@ _self = {
 
 	getUser		: function (req, res) {
 		res.setHeader('Content-type', 'application/json;charset=utf-8');
-		res.send(fakeData[req.param('id')]);
+		res.send(fakeData[req.param('uid')]);
 	}
 }
 

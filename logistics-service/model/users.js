@@ -14,7 +14,7 @@ furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+THE SOFTWARE IS PROVidED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -29,17 +29,17 @@ var _self,
 
 _self = {
 	"1":{  
-		id	: 1001,  
+		uid	: 1001,  
 		name	: "user1",  
 		password	: "password1"  
 	},  
 	"2":{  
-		id	: 1002,  
+		uid	: 1002,  
 		name	:"user2",  
 		password	:"password2"  
 	},  
 	"3":{  
-		id	: 1003,  
+		uid	: 1003,  
 		name	: "user3",  
 		password	: "password3"  
 	}  

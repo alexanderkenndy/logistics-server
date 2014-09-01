@@ -38,7 +38,7 @@ var app = module.parent.exports.app,
 app.get('^\/$|^\/index(\.htm(l)?)?$', home.getIndex);
 
 app.get('/users', user.getUsers);
-app.get('/users/:id', user.getUser);
+app.get('/users/:uid', user.getUser);
 
 /**
  * 404 page
