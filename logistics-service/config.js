@@ -46,7 +46,7 @@ var _self = {
 	 * 5.fatal
 	 * 6.trace
 	 */
-	logLevel: 'error'
+	logLevel: 'debug'
 
 };
 

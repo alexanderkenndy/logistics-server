@@ -39,6 +39,7 @@ var config = require('./config'),
 	logger = require('./utils/logger'),
 	app = module.exports.app = express(),
 	server = module.exports.server = http.createServer(app),
+	intercepters = require('./intercepters'),
 	sessionStore = module.exports.sessionStore = new express.session.MemoryStore();
 
 /**
@@ -51,6 +52,7 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
+app.use(intercepters.securityCheck());
 app.use(express.cookieParser(config.cookie_secret));
 app.use(express.session({
 	store: sessionStore, 

@@ -14,7 +14,7 @@ logistics-server
 - Unit test
 ```
 	sudo npm install -g karma   //use karma and jasmine to do the js unit and coverage
-	karma start karma.config.js   //use the configuration file to do the js unit test
+	karma start karma.conf.js   //use the configuration file to do the js unit test
 ```
 - Start server
 ```
