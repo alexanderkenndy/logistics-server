@@ -14,7 +14,7 @@ furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+THE SOFTWARE IS PROVidED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -24,32 +24,21 @@ SOFTWARE.
 */
 
 "use strict";
+var mongoose = require('mongoose'),
+	mongoSchema = mongoose.Schema;
 
-/**
- * module exports dependances
- */
-var app = module.parent.exports.app,
-	home = require('./route/home'),
-	rccode = require('./utils/rccode'),
-	user = require('./route/user');
-
-/**
- * home page
- */
-app.get('^\/$|^\/index(\.htm(l)?)?$', home.getIndex);
-
-app.get('/users', user.getUsers);
-app.get('/users/:uid', user.getUser);
-
-/**
- * 404 page
- */
-app.use(function(req,res) {
-    res.status(400);
-	res.send({
-		'rc' : rccode.RES_EXCEPTION,
-		'msg': 'invalid url'
-	});
+var BlacklistModel = new mongoSchema({
+	/* the uid of who is try to attack our system */
+	uid: String,
+	account: String,
+	/* whose ip */
+	ip: String,
+	device: String,
+	/* if he/she is blocked,then after somedays, he/she will be release */
+	blockDate:{
+		type: Date,
+		default: Date.now
+	}
 });
 
-
+mongoose.model('blacklistModel', BlacklistModel);

@@ -14,7 +14,7 @@ furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+THE SOFTWARE IS PROVidED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -24,32 +24,37 @@ SOFTWARE.
 */
 
 "use strict";
+var mongoose = require('mongoose'),
+	mongoSchema = mongoose.Schema;
 
-/**
- * module exports dependances
- */
-var app = module.parent.exports.app,
-	home = require('./route/home'),
-	rccode = require('./utils/rccode'),
-	user = require('./route/user');
-
-/**
- * home page
- */
-app.get('^\/$|^\/index(\.htm(l)?)?$', home.getIndex);
-
-app.get('/users', user.getUsers);
-app.get('/users/:uid', user.getUser);
-
-/**
- * 404 page
- */
-app.use(function(req,res) {
-    res.status(400);
-	res.send({
-		'rc' : rccode.RES_EXCEPTION,
-		'msg': 'invalid url'
-	});
+var UserModel = new mongoSchema({
+	/* user id */
+	uid: String,
+	/* user account which is used for login system */
+	account: {
+		type: String,
+		unique: true
+	},
+	/* show in UI */
+	nickname: String,
+	/* telephone like 021---*/
+	tel: String,
+	/* mobile like 137----*/
+	mobile: String,
+	/* '0' is male, '1' is female */
+	gender: {
+		type: String,
+		default: '0'
+	},
+	/* user avatar default is system avatar */
+	avatar: {
+		type: String,
+		default: 'sysAvatar'
+	},
+	regDate: {
+		type: Date,
+		defualt: Date.now
+	}
 });
 
-
+mongoose.model('userModel', UserModel);

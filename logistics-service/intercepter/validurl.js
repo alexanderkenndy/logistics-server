@@ -26,30 +26,6 @@ SOFTWARE.
 "use strict";
 
 /**
- * module exports dependances
+ * gloabl dependance module
  */
-var app = module.parent.exports.app,
-	home = require('./route/home'),
-	rccode = require('./utils/rccode'),
-	user = require('./route/user');
-
-/**
- * home page
- */
-app.get('^\/$|^\/index(\.htm(l)?)?$', home.getIndex);
-
-app.get('/users', user.getUsers);
-app.get('/users/:uid', user.getUser);
-
-/**
- * 404 page
- */
-app.use(function(req,res) {
-    res.status(400);
-	res.send({
-		'rc' : rccode.RES_EXCEPTION,
-		'msg': 'invalid url'
-	});
-});
-
 

@@ -25,31 +25,11 @@ SOFTWARE.
 
 "use strict";
 
-/**
- * module exports dependances
- */
-var app = module.parent.exports.app,
-	home = require('./route/home'),
-	rccode = require('./utils/rccode'),
-	user = require('./route/user');
+var _self;
 
-/**
- * home page
- */
-app.get('^\/$|^\/index(\.htm(l)?)?$', home.getIndex);
+_self = {
+	'RES_SUCCESS'	: 2000,
+	'RES_EXCEPTION' : 2050
+}
 
-app.get('/users', user.getUsers);
-app.get('/users/:uid', user.getUser);
-
-/**
- * 404 page
- */
-app.use(function(req,res) {
-    res.status(400);
-	res.send({
-		'rc' : rccode.RES_EXCEPTION,
-		'msg': 'invalid url'
-	});
-});
-
-
+module.exports = _self;

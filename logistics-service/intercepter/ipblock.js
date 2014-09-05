@@ -26,30 +26,23 @@ SOFTWARE.
 "use strict";
 
 /**
- * module exports dependances
+ * gloabl dependance module
  */
-var app = module.parent.exports.app,
-	home = require('./route/home'),
-	rccode = require('./utils/rccode'),
-	user = require('./route/user');
+var rccode = require('./../utils/rccode'),
+	_self;
 
-/**
- * home page
- */
-app.get('^\/$|^\/index(\.htm(l)?)?$', home.getIndex);
+_self = {
+	check : function(req, res) {
+		if (false) {
+			res.send({
+				'rc' : rccode.RES_EXCEPTION,
+				'msg': 'invalid url'
+			});
 
-app.get('/users', user.getUsers);
-app.get('/users/:uid', user.getUser);
+			return false;
+		}
 
-/**
- * 404 page
- */
-app.use(function(req,res) {
-    res.status(400);
-	res.send({
-		'rc' : rccode.RES_EXCEPTION,
-		'msg': 'invalid url'
-	});
-});
-
-
+		return true;
+	}
+};
+module.exports = _self;
