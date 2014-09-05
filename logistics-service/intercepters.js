@@ -29,10 +29,13 @@ SOFTWARE.
  * gloabl dependance module
  */
 var app = module.parent.exports.app,
+	ipblock = require('./intercepter/ipblock'),
 	_self;
 function urlCheck(req, res, next) {
-	console.log(req.url);
-	next();
+	res.setHeader('Content-type', 'application/json;charset=utf-8');
+	if(ipblock.check(req,res)) {
+		next();
+	};
 };
 
 _self = function (options) {

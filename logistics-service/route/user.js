@@ -30,12 +30,10 @@ var _self,
 
 _self = {
 	getUsers	: function (req, res) {
-		res.setHeader('Content-type', 'application/json;charset=utf-8');
 		res.send(fakeData);
 	},
 
 	getUser		: function (req, res) {
-		res.setHeader('Content-type', 'application/json;charset=utf-8');
 		res.send(fakeData[req.param('uid')]);
 	}
 }
