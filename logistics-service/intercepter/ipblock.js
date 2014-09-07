@@ -1,4 +1,4 @@
-/**
+/*
  *
 The MIT License (MIT)
 
@@ -30,12 +30,24 @@ SOFTWARE.
  */
 var rccode = require('./../utils/rccode'),
 	_self;
-
+function blocked(req) {
+	var url = req.url,
+		remoteAddress = req.connection.remoteAddress;
+	/**
+	 * query in redis if this remote user access our system 30times in 1 minute,then it's a machine,so block it
+	 * Design of block redis
+	 * @access times
+	 * @first access time
+	 * @this access time
+	 */
+	return true;
+}
 _self = {
 	check : function(req, res) {
-		if (false) {
+		console.log(req.connection.remoteAddress);
+		if (true) {
 			res.send({
-				'rc' : rccode.RES_EXCEPTION,
+				'rc' : rccode.RES_BLOCKED,
 				'msg': 'invalid url'
 			});
 

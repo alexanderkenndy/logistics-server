@@ -29,6 +29,7 @@ var _self;
 
 _self = {
 	'RES_SUCCESS'	: 2000,
+	'RES_BLOCKED' : 2049,
 	'RES_EXCEPTION' : 2050
 }
 
