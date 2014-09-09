@@ -29,12 +29,28 @@ SOFTWARE.
  * gloabl dependance module
  */
 var rccode = require('./../utils/rccode'),
+	mongoose = require('mongoose'),
 	logger = require('./../utils/logger'),
 	_self;
 /**
  * compute ip whether blocked
  */
 function _blocked(req, res, next) {
+	/**
+	 * now use sample url as /users/*
+	 * next time will format to /rest?method=getuser&appid=*&appsig=*&token=*&secret* to check url
+	 *
+	 * consider redis is a key/value db and value accept string or node buffer,
+	 * so format object to json string 
+	 * @method JSON.parse(); parse string to json object
+	 * @method JSON.stringify(); parse json object to string
+	 *
+	 * define block value data struct
+	 * {
+	 *	 'method': 'getuser',
+	 *	 '....
+	 *	 /TODO WTF: change mongodb to check url and use redis to store api result
+	 */
 	var url = req.url,
 		method = req.method,
 		remoteAddress = req.connection.remoteAddress;
@@ -47,7 +63,6 @@ function _blocked(req, res, next) {
 	 */
 	var redisClient = module.parent.parent.exports.redisClient;
 
-	logger.error(url);
 	/**
 	 * if redis is not connected, then use mongodb instead
 	 */
