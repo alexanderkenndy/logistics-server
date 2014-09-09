@@ -28,9 +28,18 @@ SOFTWARE.
 var _self;
 
 _self = {
-	'RES_SUCCESS'	: 2000,
-	'RES_BLOCKED' : 2049,
-	'RES_EXCEPTION' : 2050
+	'RES_SUCCESS'	: {
+		'rc' : 2000,
+		'msg': 'success'
+	},
+	'RES_BLOCKED' : {
+		'rc' : 2049,
+		'msg': 'blocked'
+	},
+	'RES_EXCEPTION' : {
+		'rc' : 2050,
+		'msg': 'system error'
+	}
 }
 
 module.exports = _self;

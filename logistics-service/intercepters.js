@@ -33,9 +33,7 @@ var app = module.parent.exports.app,
 	_self;
 function urlCheck(req, res, next) {
 	res.setHeader('Content-type', 'application/json;charset=utf-8');
-	if(ipblock.check(req,res)) {
-		next();
-	};
+	return ipblock.check(req, res, next);
 };
 
 _self = function (options) {

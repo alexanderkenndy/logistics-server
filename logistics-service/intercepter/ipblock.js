@@ -34,9 +34,9 @@ var rccode = require('./../utils/rccode'),
 /**
  * compute ip whether blocked
  */
-function _blocked(req) {
+function _blocked(req, res, next) {
 	var url = req.url,
-		isBlocked = false,
+		method = req.method,
 		remoteAddress = req.connection.remoteAddress;
 	/**
 	 * query in redis if this remote user access our system 30times in 1 minute,then it's a machine,so block it
@@ -47,30 +47,29 @@ function _blocked(req) {
 	 */
 	var redisClient = module.parent.parent.exports.redisClient;
 
+	logger.error(url);
 	/**
 	 * if redis is not connected, then use mongodb instead
 	 */
 	if (redisClient) {
-		var redisKey = '' + method + remoteAddress;
+		var redisKey = url + remoteAddress;
 		redisClient.get(redisKey, function(err, reply) {
 			if (err) {
 				logger.error('Exception' + err.stack);
-				isBlocked = _mongoCheck();
+				_mongoCheck();
 			}
 
 
 			if (reply && reply.toString() === 'accessed') {
-				isBlocked = true;
+				res.send(rccode.RES_BLOCKED);
 			} else {
 				redisClient.set(redisKey, 'accessed');
-				isBlocked = false;
+				next();
 			}
 		});
 	} else {
-		isBlocked = _mongoCheck();
+		_mongoCheck();
 	}
-
-	return isBlocked;
 };
 
 function _mongoCheck() {
@@ -78,17 +77,8 @@ function _mongoCheck() {
 }
 
 _self = {
-	check : function(req, res) {
-		if (_blocked(req)) {
-			res.send({
-				'rc' : rccode.RES_BLOCKED,
-				'msg': 'invalid url'
-			});
-
-			return false;
-		}
-
-		return false;
+	check : function(req, res,next) {
+		_blocked(req, res, next);
 	}
 };
 module.exports = _self;

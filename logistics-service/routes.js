@@ -46,10 +46,7 @@ app.get('/users/:uid', user.getUser);
  */
 app.use(function(req,res) {
     res.status(400);
-	res.send({
-		'rc' : rccode.RES_EXCEPTION,
-		'msg': 'invalid url'
-	});
+	res.send(rccode.RES_EXCEPTION);
 });
 
 
