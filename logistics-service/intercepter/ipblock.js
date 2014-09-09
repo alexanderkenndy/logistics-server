@@ -29,9 +29,14 @@ SOFTWARE.
  * gloabl dependance module
  */
 var rccode = require('./../utils/rccode'),
+	logger = require('./../utils/logger'),
 	_self;
-function blocked(req) {
+/**
+ * compute ip whether blocked
+ */
+function _blocked(req) {
 	var url = req.url,
+		isBlocked = false,
 		remoteAddress = req.connection.remoteAddress;
 	/**
 	 * query in redis if this remote user access our system 30times in 1 minute,then it's a machine,so block it
@@ -40,12 +45,41 @@ function blocked(req) {
 	 * @first access time
 	 * @this access time
 	 */
-	return true;
+	var redisClient = module.parent.parent.exports.redisClient;
+
+	/**
+	 * if redis is not connected, then use mongodb instead
+	 */
+	if (redisClient) {
+		var redisKey = '' + method + remoteAddress;
+		redisClient.get(redisKey, function(err, reply) {
+			if (err) {
+				logger.error('Exception' + err.stack);
+				isBlocked = _mongoCheck();
+			}
+
+
+			if (reply && reply.toString() === 'accessed') {
+				isBlocked = true;
+			} else {
+				redisClient.set(redisKey, 'accessed');
+				isBlocked = false;
+			}
+		});
+	} else {
+		isBlocked = _mongoCheck();
+	}
+
+	return isBlocked;
+};
+
+function _mongoCheck() {
+	return false;
 }
+
 _self = {
 	check : function(req, res) {
-		console.log(req.connection.remoteAddress);
-		if (true) {
+		if (_blocked(req)) {
 			res.send({
 				'rc' : rccode.RES_BLOCKED,
 				'msg': 'invalid url'
@@ -54,7 +88,7 @@ _self = {
 			return false;
 		}
 
-		return true;
+		return false;
 	}
 };
 module.exports = _self;

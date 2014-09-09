@@ -30,6 +30,7 @@ SOFTWARE.
  */
 var http = require('http'),
 	express = require('express'),
+	redis = require('redis'),
 	util = require('util'),
 	path = require('path');
 /**
@@ -40,6 +41,7 @@ var config = require('./config'),
 	app = module.exports.app = express(),
 	server = module.exports.server = http.createServer(app),
 	intercepters = require('./intercepters'),
+	redisClient = redis.createClient(config.redisPort, config.redisHost, config.redisOpt),
 	sessionStore = module.exports.sessionStore = new express.session.MemoryStore();
 
 /**
@@ -75,25 +77,8 @@ if ('development' === app.get('env')) {
 server.listen(app.get('port'), function () {
 	var colorPort = '\x1b[1;37;42m' + app.get('port') + '\x1b[m';
 
-	console.log(config.name + ' server listening on port ' + colorPort);
-
 	logger.info(config.name + ' server listening on port ' + colorPort);
 	logger.info(config.name + ' version ' + config.version + '\n');
-
-	logger.trace(config.name + ' server listening on port ' + colorPort);
-	logger.trace(config.name + ' version ' + config.version + '\n');
-
-	logger.debug(config.name + ' server listening on port ' + colorPort);
-	logger.debug(config.name + ' version ' + config.version + '\n');
-
-	logger.warn(config.name + ' server listening on port ' + colorPort);
-	logger.warn(config.name + ' version ' + config.version + '\n');
-
-	logger.error(config.name + ' server listening on port ' + colorPort);
-	logger.error(config.name + ' version ' + config.version + '\n');
-
-	logger.fatal(config.name + ' server listening on port ' + colorPort);
-	logger.fatal(config.name + ' version ' + config.version + '\n');
 
 });
 
@@ -101,5 +86,17 @@ server.listen(app.get('port'), function () {
  * Handle exceptions
  */
 process.on('uncaughtException', function(err){
-	console.error('Exception: ' + err.stack);
+	logger.error('Exception: ' + err.stack);
+});
+
+redisClient.on('connect', function() {
+	logger.info('connect to redis server success');	
+});
+
+redisClient.on('ready', function(res) {
+	module.exports.redisClient = redisClient;
+});
+
+redisClient.on('error', function(err) {
+	logger.error('Exception: '  + err.stack);
 });

@@ -46,7 +46,29 @@ var _self = {
 	 * 5.fatal
 	 * 6.trace
 	 */
-	logLevel: 'debug'
+	logLevel: 'debug',
+
+	/**
+	 * redis host
+	 * default localhost
+	 */
+	redisHost : '127.0.0.1',
+	
+	/**
+	 * redis port
+	 * default 6479
+	 */
+	redisPort : 6379,
+
+	/**
+	 * redis options
+	 * default {}
+	 */
+	redisOpt : {
+		connect_timeout : 3000,
+		no_ready_check : true,
+		max_attempts : 2
+	}
 
 };
 
